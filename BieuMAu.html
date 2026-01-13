@@ -1,0 +1,242 @@
+<!--=========================PHIẾU BÁO CÁO VI PHẠM NỘI DUNG=============-->
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phiếu Báo Cáo Vi Phạm (Đầy đủ)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Thiết lập chung */
+        * { box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #e9ebee; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            color: #1c1e21;
+        }
+
+        /* Modal Container */
+        .modal-container {
+            background: #fff;
+            width: 100%;
+            max-width: 560px;
+            border-radius: 12px;
+            box-shadow: 0 12px 28px rgba(0,0,0,0.12);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            max-height: 90vh; /* Giới hạn chiều cao để không bị tràn màn hình */
+        }
+
+        /* Header */
+        .modal-header {
+            padding: 16px 20px;
+            border-bottom: 1px solid #dddfe2;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-shrink: 0;
+        }
+        .modal-header h2 { margin: 0; font-size: 20px; font-weight: 700; }
+        .close-btn { font-size: 24px; color: #606770; cursor: pointer; background: none; border: none; padding: 0; }
+
+        /* Body Content - Cho phép cuộn */
+        .modal-body { 
+            padding: 20px; 
+            overflow-y: auto; /* Cuộn dọc nếu nội dung dài */
+        }
+
+        /* Target Summary Card */
+        .target-summary {
+            background: #f7f8fa;
+            border: 1px solid #dddfe2;
+            border-radius: 8px;
+            padding: 12px;
+            display: flex;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+        .target-avatar { width: 48px; height: 48px; background-color: #cfd0d2; border-radius: 50%; flex-shrink: 0; background-image: url('https://i.pravatar.cc/150?img=11'); background-size: cover;}
+        .target-content { flex-grow: 1; }
+        .target-name { font-weight: 600; font-size: 15px; margin-bottom: 4px; display: block;}
+        .target-snippet { font-size: 14px; color: #606770; line-height: 1.4;
+            display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; 
+        }
+
+        /* Section Title */
+        .section-title { font-weight: 600; font-size: 16px; margin-bottom: 12px; color: #050505; }
+
+        /* Reason List Options */
+        .reason-list { display: flex; flex-direction: column; gap: 8px; }
+        .reason-item input[type="radio"] { display: none; }
+        
+        /* Style cho label */
+        .reason-label {
+            display: flex;
+            align-items: flex-start;
+            padding: 12px;
+            border: 2px solid #dddfe2; 
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .reason-icon { font-size: 24px; margin-right: 16px; padding-top: 2px; }
+        .reason-text-group { flex-grow: 1; }
+        .reason-title { font-weight: 600; font-size: 15px; margin-bottom: 4px; display: block; }
+        .reason-desc { font-size: 13px; color: #606770; }
+        .check-mark { width: 24px; height: 24px; border-radius: 50%; border: 2px solid #dddfe2; margin-left: 12px; flex-shrink: 0; position: relative; }
+        
+        /* Trạng thái khi được chọn */
+        .reason-item input[type="radio"]:checked + .reason-label {
+            border-color: #1877f2; 
+            background-color: #f0f5ff; 
+        }
+        .reason-item input[type="radio"]:checked + .reason-label .reason-title { color: #1877f2; }
+        .reason-item input[type="radio"]:checked + .reason-label .check-mark {
+            border-color: #1877f2;
+            background-color: #1877f2;
+        }
+        .reason-item input[type="radio"]:checked + .reason-label .check-mark::after {
+            content: '✓'; position: absolute; color: white; font-size: 16px; top: 50%; left: 50%; transform: translate(-50%, -50%);
+        }
+
+        /* Additional Details Section */
+        .additional-details { margin-top: 24px; }
+        textarea.detail-input {
+            width: 100%; height: 80px;
+            padding: 12px;
+            border: 1px solid #dddfe2; border-radius: 8px;
+            font-family: inherit; font-size: 14px;
+            resize: vertical;
+            margin-bottom: 12px;
+        }
+        textarea.detail-input:focus { outline: none; border-color: #1877f2; box-shadow: 0 0 0 2px rgba(24,119,242,0.2); }
+        
+        .upload-btn {
+            display: flex; align-items: center; gap: 8px;
+            padding: 8px 12px;
+            border: 1px solid #dddfe2; border-radius: 6px;
+            background: #fff; color: #606770; font-weight: 600; font-size: 14px; cursor: pointer; width: fit-content;
+        }
+
+        /* Footer */
+        .modal-footer {
+            padding: 16px 20px;
+            border-top: 1px solid #dddfe2;
+            display: flex; justify-content: flex-end; gap: 12px;
+            background-color: #fff;
+            flex-shrink: 0;
+        }
+        .btn { padding: 10px 24px; border-radius: 6px; font-weight: 600; font-size: 15px; cursor: pointer; border: none; transition: background 0.2s; }
+        .btn-cancel { background: #e4e6eb; color: #050505; }
+        .btn-submit { background: #1877f2; color: white; }
+        .btn-submit:hover { background: #166fe5; }
+
+    </style>
+</head>
+<body>
+
+    <div class="modal-container">
+        <div class="modal-header">
+            <h2>Báo cáo nội dung</h2>
+            <button class="close-btn">&times;</button>
+        </div>
+
+        <div class="modal-body">
+            <div class="target-summary">
+                <div class="target-avatar"></div>
+                <div class="target-content">
+                    <span class="target-name">Bài viết của: Hoàng Nam UX</span>
+                    <span class="target-snippet">"Cần bán gấp bộ dụng cụ tự vệ, hàng nóng giá rẻ, bao ship toàn quốc..." [Kèm 2 hình ảnh]</span>
+                </div>
+            </div>
+
+            <p class="section-title">Vui lòng chọn vấn đề bạn đang gặp phải:</p>
+
+            <div class="reason-list">
+                <div class="reason-item">
+                    <input type="radio" id="reason-hate" name="violation_reason" checked>
+                    <label class="reason-label" for="reason-hate">
+                        <span class="reason-icon">🤬</span>
+                        <div class="reason-text-group">
+                            <span class="reason-title">Ngôn từ thù ghét & Quấy rối</span>
+                            <span class="reason-desc">Phân biệt chủng tộc, giới tính, tôn giáo hoặc tấn công cá nhân.</span>
+                        </div>
+                        <div class="check-mark"></div>
+                    </label>
+                </div>
+                
+                <div class="reason-item">
+                    <input type="radio" id="reason-violence" name="violation_reason">
+                    <label class="reason-label" for="reason-violence">
+                        <span class="reason-icon">👊</span>
+                        <div class="reason-text-group">
+                            <span class="reason-title">Bạo lực & Hàng cấm</span>
+                            <span class="reason-desc">Hình ảnh máu me, ngược đãi động vật, buôn bán vũ khí/chất cấm.</span>
+                        </div>
+                         <div class="check-mark"></div>
+                    </label>
+                </div>
+
+                <div class="reason-item">
+                    <input type="radio" id="reason-nudity" name="violation_reason">
+                    <label class="reason-label" for="reason-nudity">
+                        <span class="reason-icon">🔞</span>
+                        <div class="reason-text-group">
+                            <span class="reason-title">Khiêu dâm & Khỏa thân</span>
+                            <span class="reason-desc">Hình ảnh/video nhạy cảm, hoạt động tình dục rõ ràng.</span>
+                        </div>
+                         <div class="check-mark"></div>
+                    </label>
+                </div>
+
+                 <div class="reason-item">
+                    <input type="radio" id="reason-spam" name="violation_reason">
+                    <label class="reason-label" for="reason-spam">
+                        <span class="reason-icon">🤖</span>
+                        <div class="reason-text-group">
+                            <span class="reason-title">Spam & Lừa đảo (Scam)</span>
+                            <span class="reason-desc">Tin rác, quảng cáo sai sự thật, giả mạo danh tính để lừa đảo.</span>
+                        </div>
+                         <div class="check-mark"></div>
+                    </label>
+                </div>
+
+                <div class="reason-item">
+                    <input type="radio" id="reason-other" name="violation_reason">
+                    <label class="reason-label" for="reason-other">
+                        <span class="reason-icon">⚠️</span>
+                        <div class="reason-text-group">
+                            <span class="reason-title">Vấn đề khác</span>
+                            <span class="reason-desc">Vi phạm bản quyền, tự hại/tự tử hoặc vấn đề không có trong danh sách.</span>
+                        </div>
+                         <div class="check-mark"></div>
+                    </label>
+                </div>
+
+            </div>
+
+            <div class="additional-details">
+                <p class="section-title">Thông tin bổ sung (Tùy chọn):</p>
+                <textarea class="detail-input" placeholder="Hãy mô tả thêm nếu bạn chọn 'Vấn đề khác'..."></textarea>
+                
+                <button class="upload-btn">
+                    <span>📷</span> Đính kèm bằng chứng (Ảnh/Video)
+                </button>
+            </div>
+
+        </div>
+
+        <div class="modal-footer">
+            <button class="btn btn-cancel">Hủy bỏ</button>
+            <button class="btn btn-submit">Gửi báo cáo</button>
+        </div>
+    </div>
+    </body>
+</html>
