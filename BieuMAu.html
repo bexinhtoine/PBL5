@@ -601,7 +601,7 @@
 
 
 <!--=========================PHIẾU KHÁNG NGHỊ=============-->
-<!DOCTYPE html>
+<!--<!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
@@ -845,6 +845,315 @@
             <button class="btn btn-cancel">Hủy bỏ</button>
             <button class="btn btn-submit">Gửi kháng nghị <i class="fas fa-paper-plane" style="margin-left:6px"></i></button>
         </div>
+    </div>
+
+</body>
+</html>
+-->
+
+<!--=========================BÁO CÁO NỘI DUNG=====================-->
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Performance Report - AI Core</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-body: #0b1120;       /* Deepest Blue */
+            --bg-card: #1e293b;       /* Slate 800 */
+            --border: #334155;
+            --text-main: #f8fafc;
+            --text-sub: #94a3b8;
+            
+            /* Chart Colors */
+            --chart-purple: #8b5cf6;
+            --chart-blue: #3b82f6;
+            --chart-green: #10b981;
+            --chart-red: #ef4444;
+            --chart-orange: #f59e0b;
+        }
+
+        * { box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            margin: 0; padding: 20px;
+            min-height: 100vh;
+        }
+
+        /* --- LAYOUT GRID --- */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: auto auto 1fr;
+            gap: 24px;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        /* --- HEADER --- */
+        .header {
+            grid-column: 1 / -1;
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 10px;
+        }
+        .title h1 { margin: 0; font-size: 24px; font-weight: 700; }
+        .title p { margin: 4px 0 0; color: var(--text-sub); font-size: 14px; }
+        
+        .controls { display: flex; gap: 12px; }
+        .date-picker {
+            background: var(--bg-card); color: var(--text-main); border: 1px solid var(--border);
+            padding: 8px 16px; border-radius: 6px; font-family: inherit;
+        }
+        .btn-export {
+            background: var(--chart-blue); color: white; border: none; padding: 8px 16px;
+            border-radius: 6px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 8px;
+        }
+
+        /* --- KPI CARDS (Hàng trên cùng) --- */
+        .kpi-card {
+            background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px;
+            padding: 20px; display: flex; flex-direction: column; justify-content: space-between;
+            height: 140px; position: relative; overflow: hidden;
+        }
+        .kpi-title { color: var(--text-sub); font-size: 13px; font-weight: 600; text-transform: uppercase; margin-bottom: 8px; }
+        .kpi-value { font-size: 32px; font-weight: 700; color: white; margin-bottom: 8px; }
+        .kpi-trend { font-size: 13px; display: flex; align-items: center; gap: 4px; }
+        .trend-up { color: var(--chart-green); }
+        .trend-down { color: var(--chart-red); }
+        
+        .kpi-icon {
+            position: absolute; right: 20px; top: 20px;
+            font-size: 24px; opacity: 0.2; color: white;
+        }
+
+        /* --- CHART SECTIONS --- */
+        .chart-panel {
+            background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px;
+            padding: 24px; display: flex; flex-direction: column;
+        }
+        
+        .panel-header { display: flex; justify-content: space-between; margin-bottom: 20px; }
+        .panel-title { font-weight: 700; font-size: 16px; }
+
+        /* Chart 1: Traffic Line Chart (Simulated) */
+        .chart-large { grid-column: span 3; height: 350px; }
+        .fake-graph {
+            flex-grow: 1; display: flex; align-items: flex-end; gap: 10px;
+            padding-bottom: 20px; border-bottom: 1px solid var(--border);
+            position: relative;
+        }
+        .bar {
+            flex: 1; background: linear-gradient(to top, rgba(59, 130, 246, 0.1), var(--chart-blue));
+            border-top-left-radius: 4px; border-top-right-radius: 4px;
+            transition: height 1s; opacity: 0.8;
+        }
+        .bar:hover { opacity: 1; background: var(--chart-blue); }
+
+        /* Chart 2: AI Accuracy (Donut) */
+        .chart-small { grid-column: span 1; height: 350px; }
+        .donut-wrapper { display: flex; justify-content: center; align-items: center; height: 100%; position: relative; }
+        .donut {
+            width: 180px; height: 180px; border-radius: 50%;
+            background: conic-gradient(var(--chart-green) 0% 92%, var(--chart-red) 92% 100%);
+            position: relative;
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.2);
+        }
+        .donut-inner {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 140px; height: 140px; background: var(--bg-card); border-radius: 50%;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+        }
+        .donut-label { font-size: 32px; font-weight: 700; color: var(--text-main); }
+        .donut-sub { font-size: 12px; color: var(--text-sub); }
+
+        /* Chart 3: Violation Breakdown (Horizontal Bars) */
+        .chart-wide { grid-column: span 2; height: 300px; }
+        .h-bar-group { display: flex; flex-direction: column; gap: 16px; margin-top: 10px; }
+        .h-bar-item { display: flex; flex-direction: column; gap: 6px; }
+        .h-label-row { display: flex; justify-content: space-between; font-size: 13px; font-weight: 500; }
+        .h-track { width: 100%; height: 8px; background: #0f172a; border-radius: 4px; overflow: hidden; }
+        .h-fill { height: 100%; border-radius: 4px; }
+
+        /* Chart 4: Moderator Leaderboard (Table) */
+        .chart-table { grid-column: span 2; height: 300px; overflow: hidden; }
+        table { width: 100%; border-collapse: collapse; font-size: 14px; }
+        th { text-align: left; color: var(--text-sub); font-weight: 500; padding: 10px 0; border-bottom: 1px solid var(--border); }
+        td { padding: 12px 0; border-bottom: 1px dashed var(--border); color: var(--text-main); }
+        .status-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; }
+        .dot-green { background: var(--chart-green); }
+        .dot-yellow { background: var(--chart-orange); }
+
+    </style>
+</head>
+<body>
+
+    <div class="dashboard-grid">
+        
+        <div class="header">
+            <div class="title">
+                <h1>Hiệu năng hệ thống & Chất lượng AI</h1>
+                <p>Báo cáo tổng hợp tháng 05/2024 • Cập nhật lần cuối: 10 phút trước</p>
+            </div>
+            <div class="controls">
+                <select class="date-picker">
+                    <option>Tháng này</option>
+                    <option>7 ngày qua</option>
+                    <option>Hôm nay</option>
+                </select>
+                <button class="btn-export"><i class="fas fa-download"></i> Xuất báo cáo</button>
+            </div>
+        </div>
+
+        <div class="kpi-card">
+            <div class="kpi-title">Tổng lưu lượng (Requests)</div>
+            <div class="kpi-value">1.2M</div>
+            <div class="kpi-trend trend-up"><i class="fas fa-arrow-up"></i> 12.5% so với tháng trước</div>
+            <i class="fas fa-server kpi-icon"></i>
+        </div>
+
+        <div class="kpi-card">
+            <div class="kpi-title">Tỷ lệ Tự động hóa (Automation)</div>
+            <div class="kpi-value">94.2%</div>
+            <div class="kpi-trend trend-up"><i class="fas fa-arrow-up"></i> AI xử lý ngày càng tốt</div>
+            <i class="fas fa-robot kpi-icon"></i>
+        </div>
+
+        <div class="kpi-card">
+            <div class="kpi-title">Độ trễ trung bình (Latency)</div>
+            <div class="kpi-value">180ms</div>
+            <div class="kpi-trend trend-down"><i class="fas fa-arrow-down"></i> Cải thiện 5% (Tốt)</div>
+            <i class="fas fa-tachometer-alt kpi-icon"></i>
+        </div>
+
+        <div class="kpi-card">
+            <div class="kpi-title">Vi phạm đã chặn (Blocked)</div>
+            <div class="kpi-value">8,450</div>
+            <div class="kpi-trend trend-up" style="color: var(--chart-red)"><i class="fas fa-arrow-up"></i> Tăng đột biến</div>
+            <i class="fas fa-shield-alt kpi-icon"></i>
+        </div>
+
+        <div class="chart-panel chart-large">
+            <div class="panel-header">
+                <div class="panel-title">Lưu lượng truy cập & Tải hệ thống (Real-time Load)</div>
+                <div style="font-size: 12px; color: var(--text-sub);">Đơn vị: Requests/phút</div>
+            </div>
+            <div class="fake-graph">
+                <div class="bar" style="height: 40%"></div>
+                <div class="bar" style="height: 55%"></div>
+                <div class="bar" style="height: 45%"></div>
+                <div class="bar" style="height: 70%"></div>
+                <div class="bar" style="height: 60%"></div>
+                <div class="bar" style="height: 85%"></div>
+                <div class="bar" style="height: 75%"></div>
+                <div class="bar" style="height: 90%"></div>
+                <div class="bar" style="height: 65%"></div>
+                <div class="bar" style="height: 50%"></div>
+                <div class="bar" style="height: 60%"></div>
+                <div class="bar" style="height: 80%"></div>
+            </div>
+            <div style="display: flex; justify-content: space-between; margin-top: 10px; color: var(--text-sub); font-size: 12px;">
+                <span>00:00</span><span>06:00</span><span>12:00</span><span>18:00</span><span>23:59</span>
+            </div>
+        </div>
+
+        <div class="chart-panel chart-small">
+            <div class="panel-header">
+                <div class="panel-title">Độ chính xác AI</div>
+            </div>
+            <div class="donut-wrapper">
+                <div class="donut">
+                    <div class="donut-inner">
+                        <span class="donut-label">92%</span>
+                        <span class="donut-sub">Precision</span>
+                    </div>
+                </div>
+            </div>
+            <div style="margin-top: 20px; font-size: 13px;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                    <span style="color: var(--chart-green)">● Chính xác (True Pos)</span>
+                    <span>92%</span>
+                </div>
+                <div style="display: flex; justify-content: space-between;">
+                    <span style="color: var(--chart-red)">● Nhầm lẫn (False Pos)</span>
+                    <span>8%</span>
+                </div>
+                <p style="margin-top: 15px; font-size: 12px; color: var(--text-sub); line-height: 1.4;">
+                    *Tỷ lệ báo nhầm (False Positive) đã giảm 2% sau đợt cập nhật Model v2.1.
+                </p>
+            </div>
+        </div>
+
+        <div class="chart-panel chart-wide">
+            <div class="panel-header">
+                <div class="panel-title">Phân loại nội dung vi phạm</div>
+            </div>
+            <div class="h-bar-group">
+                <div class="h-bar-item">
+                    <div class="h-label-row"><span>Spam & Lừa đảo</span> <span>45%</span></div>
+                    <div class="h-track"><div class="h-fill" style="width: 45%; background: var(--chart-purple)"></div></div>
+                </div>
+                <div class="h-bar-item">
+                    <div class="h-label-row"><span>Ngôn từ thù ghét</span> <span>30%</span></div>
+                    <div class="h-track"><div class="h-fill" style="width: 30%; background: var(--chart-orange)"></div></div>
+                </div>
+                <div class="h-bar-item">
+                    <div class="h-label-row"><span>Hình ảnh bạo lực</span> <span>15%</span></div>
+                    <div class="h-track"><div class="h-fill" style="width: 15%; background: var(--chart-red)"></div></div>
+                </div>
+                <div class="h-bar-item">
+                    <div class="h-label-row"><span>Khiêu dâm (NSFW)</span> <span>10%</span></div>
+                    <div class="h-track"><div class="h-fill" style="width: 10%; background: var(--chart-blue)"></div></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="chart-panel chart-table">
+            <div class="panel-header">
+                <div class="panel-title">Hiệu suất đội ngũ kiểm duyệt</div>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nhân viên</th>
+                        <th>Trạng thái</th>
+                        <th>Đã xử lý</th>
+                        <th>Avg Time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Nguyễn Văn A</td>
+                        <td><span class="status-dot dot-green"></span>Online</td>
+                        <td>1,240</td>
+                        <td>25s</td>
+                    </tr>
+                    <tr>
+                        <td>Trần Thị B</td>
+                        <td><span class="status-dot dot-green"></span>Online</td>
+                        <td>980</td>
+                        <td>32s</td>
+                    </tr>
+                    <tr>
+                        <td>Lê Văn C</td>
+                        <td><span class="status-dot dot-yellow"></span>Away</td>
+                        <td>850</td>
+                        <td>28s</td>
+                    </tr>
+                     <tr>
+                        <td>Phạm Thị D</td>
+                        <td><span class="status-dot dot-green"></span>Online</td>
+                        <td>620</td>
+                        <td>45s</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
     </div>
 
 </body>
