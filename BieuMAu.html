@@ -252,7 +252,7 @@
 
 
 <!--=========================TICKET KIỂM DUYỆT=====================-->
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
@@ -591,5 +591,261 @@
         </aside>
 
     </div>
+</body>
+</html>
+-->
+
+
+
+
+
+
+<!--=========================PHIẾU KHÁNG NGHỊ=============-->
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Appeal Request - Content Safety</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --bg-body: #0f172a;       /* Slate 900 */
+            --bg-card: #1e293b;       /* Slate 800 */
+            --bg-input: #0f172a;
+            --border: #334155;        /* Slate 700 */
+            --text-main: #f1f5f9;     /* Slate 100 */
+            --text-sub: #94a3b8;      /* Slate 400 */
+            --accent-blue: #3b82f6;
+            --accent-red: #ef4444;
+            --accent-red-dim: rgba(239, 68, 68, 0.15);
+            --focus-glow: 0 0 0 2px rgba(59, 130, 246, 0.5);
+        }
+
+        * { box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #020617; /* Màu nền tối hơn body để modal nổi bật */
+            color: var(--text-main);
+            margin: 0; padding: 20px;
+            display: flex; justify-content: center; align-items: center;
+            min-height: 100vh;
+        }
+
+        /* --- MODAL CONTAINER --- */
+        .modal {
+            width: 100%; max-width: 680px;
+            background-color: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            display: flex; flex-direction: column;
+            overflow: hidden;
+            animation: slideIn 0.4s ease-out;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- HEADER --- */
+        .modal-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--border);
+            display: flex; justify-content: space-between; align-items: center;
+            background: rgba(30, 41, 59, 0.8);
+            backdrop-filter: blur(10px);
+        }
+        .header-left h2 { margin: 0; font-size: 18px; font-weight: 700; letter-spacing: -0.5px; }
+        .case-id { font-size: 12px; color: var(--text-sub); font-family: monospace; margin-top: 4px; display: block; }
+        .close-btn { background: transparent; border: none; color: var(--text-sub); font-size: 20px; cursor: pointer; transition: 0.2s; }
+        .close-btn:hover { color: var(--text-main); transform: rotate(90deg); }
+
+        /* --- BODY --- */
+        .modal-body { padding: 24px; overflow-y: auto; max-height: 75vh; }
+
+        /* Section 1: Violation Context */
+        .violation-box {
+            background-color: var(--accent-red-dim);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            border-radius: 12px; padding: 16px;
+            margin-bottom: 24px; display: flex; gap: 16px;
+        }
+        .v-icon { 
+            width: 48px; height: 48px; background: var(--accent-red); color: white; 
+            border-radius: 10px; display: flex; justify-content: center; align-items: center; 
+            font-size: 20px; flex-shrink: 0; 
+        }
+        .v-content { flex-grow: 1; }
+        .v-title { margin: 0 0 6px 0; font-weight: 600; font-size: 15px; color: #fca5a5; }
+        .v-desc { margin: 0 0 12px 0; font-size: 13px; color: #fecaca; line-height: 1.5; }
+
+        /* Blurred Content Preview */
+        .deleted-preview {
+            display: flex; gap: 12px; padding: 10px;
+            background: rgba(0, 0, 0, 0.2); border-radius: 8px; border: 1px dashed rgba(239, 68, 68, 0.4);
+        }
+        .blur-thumb-wrapper { position: relative; width: 80px; height: 60px; border-radius: 6px; overflow: hidden; cursor: help; }
+        .blur-thumb { width: 100%; height: 100%; object-fit: cover; filter: blur(6px); transition: 0.3s; }
+        .blur-thumb-wrapper:hover .blur-thumb { filter: blur(0); } /* Hover to reveal */
+        .blur-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; font-size: 12px; color: white; text-shadow: 0 1px 3px rgba(0,0,0,0.8); pointer-events: none; }
+        .blur-thumb-wrapper:hover .blur-overlay { opacity: 0; }
+        
+        .deleted-meta { font-size: 12px; color: var(--text-sub); display: flex; flex-direction: column; justify-content: center; }
+        .deleted-meta b { color: var(--text-main); margin-bottom: 2px; }
+
+        /* Section 2: Reason Selection */
+        .section-label { font-size: 14px; font-weight: 600; color: var(--text-main); margin-bottom: 12px; display: flex; justify-content: space-between; }
+        .section-label span.required { color: var(--accent-red); font-size: 12px; }
+
+        .reason-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 24px; }
+        .radio-card input { display: none; }
+        .radio-box {
+            background: var(--bg-input); border: 1px solid var(--border);
+            padding: 16px; border-radius: 10px; cursor: pointer; transition: all 0.2s;
+            display: flex; flex-direction: column; align-items: center; text-align: center; gap: 8px;
+            height: 100%;
+        }
+        .radio-box i { font-size: 24px; color: var(--text-sub); margin-bottom: 4px; }
+        .radio-box span { font-size: 13px; font-weight: 500; color: var(--text-sub); }
+
+        /* Active State for Radio */
+        .radio-card input:checked + .radio-box {
+            background: rgba(59, 130, 246, 0.1);
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 0 1px var(--accent-blue);
+        }
+        .radio-card input:checked + .radio-box i,
+        .radio-card input:checked + .radio-box span { color: var(--accent-blue); }
+
+        /* Section 3: Explanation & Upload */
+        .input-group { margin-bottom: 24px; }
+        textarea.custom-area {
+            width: 100%; min-height: 120px; background: var(--bg-input); color: var(--text-main);
+            border: 1px solid var(--border); border-radius: 8px; padding: 12px;
+            font-family: inherit; font-size: 14px; line-height: 1.5; resize: vertical;
+            transition: 0.2s;
+        }
+        textarea.custom-area:focus { outline: none; border-color: var(--accent-blue); box-shadow: var(--focus-glow); }
+
+        /* File Upload Zone */
+        .upload-zone {
+            border: 2px dashed var(--border); border-radius: 8px;
+            padding: 20px; text-align: center; cursor: pointer;
+            transition: 0.2s; background: rgba(15, 23, 42, 0.5);
+        }
+        .upload-zone:hover { border-color: var(--text-sub); background: rgba(15, 23, 42, 0.8); }
+        .upload-icon { font-size: 24px; color: var(--text-sub); margin-bottom: 8px; }
+        .upload-text { font-size: 13px; color: var(--text-sub); }
+        .upload-text b { color: var(--accent-blue); }
+
+        /* --- FOOTER --- */
+        .modal-footer {
+            padding: 20px 24px; border-top: 1px solid var(--border);
+            display: flex; justify-content: flex-end; gap: 12px;
+            background: var(--bg-card);
+        }
+        .btn { padding: 12px 24px; border-radius: 8px; font-weight: 600; font-size: 14px; cursor: pointer; border: none; transition: 0.2s; }
+        .btn-cancel { background: transparent; color: var(--text-sub); border: 1px solid var(--border); }
+        .btn-cancel:hover { border-color: var(--text-main); color: var(--text-main); }
+        .btn-submit { background: var(--accent-blue); color: white; box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3); }
+        .btn-submit:hover { background: #2563eb; transform: translateY(-1px); }
+
+    </style>
+</head>
+<body>
+
+    <div class="modal">
+        <div class="modal-header">
+            <div class="header-left">
+                <h2>Kháng nghị quyết định</h2>
+                <span class="case-id">Case Reference: #AP-2024-99281</span>
+            </div>
+            <button class="close-btn"><i class="fas fa-times"></i></button>
+        </div>
+
+        <div class="modal-body">
+            
+            <div class="violation-box">
+                <div class="v-icon"><i class="fas fa-ban"></i></div>
+                <div class="v-content">
+                    <h3 class="v-title">Bài viết đã bị gỡ bỏ</h3>
+                    <p class="v-desc">
+                        Hệ thống AI đã phát hiện nội dung vi phạm chính sách <b>"Vũ khí & Bạo lực"</b>. 
+                        Quyết định này được đưa ra lúc 14:30 ngày hôm nay.
+                    </p>
+                    
+                    <div class="deleted-preview">
+                        <div class="blur-thumb-wrapper" title="Nhấn giữ để xem">
+                            <div class="blur-overlay"><i class="fas fa-eye-slash"></i></div>
+                            <img src="file:///C:/Users/DELL/Downloads/210217-N-SK327-0059.jpg"  class="blur-thumb">
+                        </div>
+                        <div class="deleted-meta">
+                            <b>Loại nội dung:</b> Hình ảnh + Caption
+                            <span>Độ tin cậy của AI: <span style="color: #fca5a5">92% (Cao)</span></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-label">
+                Lý do kháng nghị <span class="required">*Chọn 1</span>
+            </div>
+            <div class="reason-grid">
+                <label class="radio-card">
+                    <input type="radio" name="reason" checked>
+                    <div class="radio-box">
+                        <i class="fas fa-graduation-cap"></i>
+                        <span>Giáo dục / Tin tức</span>
+                    </div>
+                </label>
+                <label class="radio-card">
+                    <input type="radio" name="reason">
+                    <div class="radio-box">
+                        <i class="fas fa-theater-masks"></i>
+                        <span>Hư cấu / Nghệ thuật</span>
+                    </div>
+                </label>
+                <label class="radio-card">
+                    <input type="radio" name="reason">
+                    <div class="radio-box">
+                        <i class="fas fa-user-shield"></i>
+                        <span>Lên án hành vi này</span>
+                    </div>
+                </label>
+                <label class="radio-card">
+                    <input type="radio" name="reason">
+                    <div class="radio-box">
+                        <i class="fas fa-question-circle"></i>
+                        <span>Lỗi nhận diện sai</span>
+                    </div>
+                </label>
+            </div>
+
+            <div class="input-group">
+                <div class="section-label">Giải trình chi tiết <span class="required">*Bắt buộc</span></div>
+                <textarea class="custom-area" placeholder="Hãy giúp chúng tôi hiểu rõ bối cảnh. Ví dụ: Đây là súng nhựa đồ chơi dùng cho vở kịch của trường..."></textarea>
+            </div>
+
+            <div class="input-group">
+                <div class="section-label">Bằng chứng hỗ trợ <span>(Tùy chọn)</span></div>
+                <div class="upload-zone">
+                    <div class="upload-icon"><i class="fas fa-cloud-upload-alt"></i></div>
+                    <div class="upload-text"><b>Nhấn để tải lên</b> hoặc kéo thả file vào đây</div>
+                    <div style="font-size: 11px; color: var(--text-sub); margin-top: 4px;">Hỗ trợ: JPG, PNG, PDF (Max 5MB)</div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="modal-footer">
+            <button class="btn btn-cancel">Hủy bỏ</button>
+            <button class="btn btn-submit">Gửi kháng nghị <i class="fas fa-paper-plane" style="margin-left:6px"></i></button>
+        </div>
+    </div>
+
 </body>
 </html>
