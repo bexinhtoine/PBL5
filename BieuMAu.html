@@ -852,7 +852,7 @@
 -->
 
 <!--=========================BÁO CÁO NỘI DUNG=====================-->
-<!DOCTYPE html>
+<!--<!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
@@ -1154,6 +1154,328 @@
             </table>
         </div>
 
+    </div>
+
+</body>
+</html>
+-->
+
+
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Chính sách Tiêu chuẩn Cộng đồng - Full Edition</title>
+    <link href="https://fonts.googleapis.com/css2?family=Times+New+Roman&family=Roboto:wght@300;400;500;700&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* --- CẤU HÌNH IN ẤN (A4) --- */
+        @page {
+            size: A4;
+            margin: 2.5cm 2cm; /* Lề chuẩn văn bản hành chính */
+        }
+        @media print {
+            body { -webkit-print-color-adjust: exact; }
+            .page-break { page-break-before: always; }
+            a { text-decoration: none; color: black; }
+        }
+
+        /* --- TYPOGRAPHY --- */
+        body {
+            font-family: 'Times New Roman', serif; /* Font chân phương cho văn bản dài */
+            font-size: 12pt;
+            line-height: 1.5;
+            color: #212529;
+            background: #fff;
+            max-width: 210mm;
+            margin: 0 auto;
+        }
+        
+        h1, h2, h3, h4 {
+            font-family: 'Open Sans', sans-serif; /* Font không chân cho tiêu đề */
+            color: #0f172a;
+            font-weight: 700;
+        }
+
+        /* --- TRANG BÌA (COVER) --- */
+        .cover-container {
+            height: 90vh;
+            display: flex; flex-direction: column; justify-content: space-between;
+            text-align: center; border: 1px solid #ddd; padding: 40px;
+            background: linear-gradient(to bottom, #fff 80%, #f8f9fa 100%);
+        }
+        .cover-title { font-size: 28pt; text-transform: uppercase; color: #1e3a8a; margin-top: 100px; line-height: 1.2; }
+        .cover-subtitle { font-size: 16pt; color: #64748b; margin-top: 20px; font-weight: 300; }
+        .cover-meta { text-align: right; border-top: 4px solid #1e3a8a; padding-top: 20px; margin-bottom: 50px; }
+        .meta-item { margin-bottom: 5px; font-size: 11pt; }
+
+        /* --- MỤC LỤC & BẢNG BIỂU --- */
+        .toc { background: #f8fafc; padding: 30px; border-radius: 8px; border: 1px solid #e2e8f0; }
+        .toc-title { text-align: center; text-transform: uppercase; margin-bottom: 20px; color: #1e3a8a; }
+        .toc-item { display: flex; justify-content: space-between; margin-bottom: 8px; border-bottom: 1px dotted #ccc; }
+
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 11pt; page-break-inside: avoid; }
+        th { background-color: #f1f5f9; border: 1px solid #cbd5e1; padding: 12px; text-align: left; text-transform: uppercase; font-size: 10pt; font-family: 'Open Sans', sans-serif; }
+        td { border: 1px solid #cbd5e1; padding: 12px; vertical-align: top; }
+        
+        /* --- TIÊU ĐỀ PHẦN (HEADERS) --- */
+        .section-num { color: #1e3a8a; margin-right: 10px; }
+        h2 { border-bottom: 2px solid #1e3a8a; padding-bottom: 10px; margin-top: 40px; font-size: 18pt; }
+        h3 { margin-top: 25px; font-size: 14pt; color: #334155; }
+
+        /* --- CÁC THÀNH PHẦN NỔI BẬT --- */
+        .tech-note {
+            background: #eff6ff; border-left: 4px solid #3b82f6;
+            padding: 10px 15px; margin: 15px 0; font-size: 10pt; color: #1e40af;
+            font-family: 'Open Sans', sans-serif;
+        }
+        .example-box { display: flex; gap: 0; margin: 15px 0; border: 1px solid #e2e8f0; }
+        .do-box { flex: 1; background: #f0fdf4; padding: 15px; border-right: 1px solid #e2e8f0; }
+        .dont-box { flex: 1; background: #fef2f2; padding: 15px; }
+        .do-title { color: #166534; font-weight: bold; margin-bottom: 5px; text-transform: uppercase; font-size: 10pt; }
+        .dont-title { color: #991b1b; font-weight: bold; margin-bottom: 5px; text-transform: uppercase; font-size: 10pt; }
+
+        /* --- FOOTER & HEADER CỐ ĐỊNH --- */
+        .header-print { position: fixed; top: 0; right: 0; font-size: 9pt; color: #94a3b8; }
+        .footer-print { 
+            position: fixed; bottom: 0; left: 0; right: 0; 
+            text-align: center; font-size: 9pt; color: #94a3b8; 
+            border-top: 1px solid #eee; padding-top: 10px;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="cover-container">
+        <div>
+            <div style="font-size: 60px; margin-bottom: 20px;">🛡️</div>
+            <div style="font-family: 'Open Sans'; font-weight: bold; font-size: 14pt; letter-spacing: 2px;">CÔNG TY CÔNG NGHỆ FUTURE AI</div>
+        </div>
+        
+        <div>
+            <h1 class="cover-title">Tài liệu Chính sách<br>Tiêu chuẩn Cộng đồng</h1>
+            <div class="cover-subtitle">Community Standards & Content Policy Specification</div>
+            <div style="margin-top: 20px; font-style: italic;">"Xây dựng môi trường số an toàn bằng Trí tuệ nhân tạo"</div>
+        </div>
+
+        <div class="cover-meta">
+            <div class="meta-item"><strong>Mã tài liệu:</strong> POL-2024-V2</div>
+            <div class="meta-item"><strong>Phiên bản:</strong> 2.0 (Chi tiết)</div>
+            <div class="meta-item"><strong>Ngày ban hành:</strong> 15/05/2024</div>
+            <div class="meta-item"><strong>Người phê duyệt:</strong> Admin System</div>
+        </div>
+    </div>
+
+    <div class="page-break"></div>
+
+    <h2>Lịch sử sửa đổi tài liệu</h2>
+    <table>
+        <thead>
+            <tr>
+                <th style="width: 15%">Phiên bản</th>
+                <th style="width: 20%">Ngày</th>
+                <th style="width: 45%">Nội dung thay đổi</th>
+                <th style="width: 20%">Người thực hiện</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1.0</td>
+                <td>01/01/2024</td>
+                <td>Ban hành lần đầu (Bản nháp).</td>
+                <td>Nhóm NCKH</td>
+            </tr>
+            <tr>
+                <td>2.0</td>
+                <td>15/05/2024</td>
+                <td>Bổ sung quy định về AI, Deepfake và Quy trình Kháng nghị chi tiết.</td>
+                <td>Trưởng nhóm</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="toc">
+        <h3 class="toc-title">Mục Lục</h3>
+        <div class="toc-item"><span>I. Giới thiệu và Phạm vi áp dụng</span> <span>03</span></div>
+        <div class="toc-item"><span>II. Định nghĩa thuật ngữ</span> <span>03</span></div>
+        <div class="toc-item"><span>III. Chính sách Nội dung chi tiết</span> <span>04</span></div>
+        <div class="toc-item"><span>IV. Cơ chế vận hành của AI & Ngưỡng chặn</span> <span>07</span></div>
+        <div class="toc-item"><span>V. Quy trình Thực thi & Kháng nghị</span> <span>08</span></div>
+        <div class="toc-item"><span>VI. Bảo mật dữ liệu & Quyền riêng tư</span> <span>09</span></div>
+    </div>
+
+    <div class="page-break"></div>
+
+    <h2>I. Giới thiệu và Phạm vi áp dụng</h2>
+    <p>Tài liệu này quy định các tiêu chuẩn về nội dung được phép và không được phép xuất hiện trên nền tảng. Đây là cơ sở pháp lý để:</p>
+    <ol>
+        <li>Huấn luyện các mô hình Trí tuệ nhân tạo (Data Labeling Guidelines).</li>
+        <li>Hướng dẫn Nhân viên kiểm duyệt (Moderator) ra quyết định xử lý.</li>
+        <li>Thông báo minh bạch cho Người dùng cuối (End-users) về quyền và trách nhiệm.</li>
+    </ol>
+
+    <h2>II. Định nghĩa thuật ngữ (Glossary)</h2>
+    <table>
+        <tr>
+            <th style="width: 25%">Thuật ngữ</th>
+            <th>Định nghĩa trong văn bản này</th>
+        </tr>
+        <tr>
+            <td><strong>Nội dung độc hại</strong></td>
+            <td>Bao gồm văn bản, hình ảnh, video, âm thanh vi phạm pháp luật Việt Nam hoặc gây tổn hại đến cộng đồng (xem chi tiết Mục III).</td>
+        </tr>
+        <tr>
+            <td><strong>Dương tính giả (False Positive)</strong></td>
+            <td>Trường hợp AI nhận diện nhầm nội dung sạch là vi phạm. Tỷ lệ cho phép tối đa: 5%.</td>
+        </tr>
+        <tr>
+            <td><strong>Ngưỡng tin cậy (Confidence Score)</strong></td>
+            <td>Điểm số từ 0.0 đến 1.0 do AI trả về, thể hiện mức độ chắc chắn của dự đoán.</td>
+        </tr>
+        <tr>
+            <td><strong>CSAM</strong></td>
+            <td>Child Sexual Abuse Material - Tài liệu lạm dụng tình dục trẻ em (Tuyệt đối cấm).</td>
+        </tr>
+    </table>
+
+    <div class="page-break"></div>
+
+    <h2>III. Chính sách Nội dung chi tiết</h2>
+
+    <h3>1. Bạo lực & Kích động (Violence & Incitement)</h3>
+    <div class="tech-note">
+        <strong>⚙️ Cấu hình AI:</strong> Object Detection (YOLOv8) phát hiện: <code>Gun</code>, <code>Knife</code>, <code>Blood</code>. Ngưỡng chặn tự động: > 0.85.
+    </div>
+    
+    <h4>1.1. Nội dung bị nghiêm cấm (Prohibited Content)</h4>
+    <ul>
+        <li>Hình ảnh trực quan về thương tích nghiêm trọng, nội tạng, hoặc hiện trường vụ án đẫm máu không che.</li>
+        <li>Hành vi hành hạ, ngược đãi động vật (Animal Cruelty).</li>
+        <li>Hướng dẫn chi tiết cách chế tạo vũ khí sát thương (bom, mìn, súng in 3D).</li>
+        <li>Kêu gọi, lên kế hoạch tấn công khủng bố hoặc xả súng hàng loạt.</li>
+    </ul>
+
+    <h4>1.2. Ví dụ minh họa</h4>
+    <div class="example-box">
+        <div class="do-box">
+            <div class="do-title">✅ ĐƯỢC PHÉP (NGOẠI LỆ)</div>
+            <ul>
+                <li>Cảnh phim hành động có kỹ xảo điện ảnh (cần gắn nhãn hư cấu).</li>
+                <li>Hình ảnh phẫu thuật y tế phục vụ giáo dục (phải làm mờ và cảnh báo trước).</li>
+                <li>Vũ khí trưng bày trong bảo tàng.</li>
+            </ul>
+        </div>
+        <div class="dont-box">
+            <div class="dont-title">❌ VI PHẠM (XÓA BÀI)</div>
+            <ul>
+                <li>Video quay cảnh đánh nhau thực tế ngoài đường phố.</li>
+                <li>Ảnh cắt cổ gà/vịt quay cận cảnh máu me.</li>
+                <li>Livestream hành vi tự làm hại bản thân (cắt tay, tự tử).</li>
+            </ul>
+        </div>
+    </div>
+
+    <h3>2. Khỏa thân & Tình dục (Nudity & Sexual Activity)</h3>
+    <div class="tech-note">
+        <strong>⚙️ Cấu hình AI:</strong> Image Classification (EfficientNet). Class: <code>Porn</code>, <code>Hentai</code>, <code>Sexy</code>.
+    </div>
+
+    <h4>2.1. Quy tắc Zero-Tolerance (Không khoan nhượng) với CSAM</h4>
+    <p>Bất kỳ nội dung nào mô tả trẻ em (hoặc nhân vật giống trẻ em) trong tư thế gợi dục hoặc khỏa thân sẽ bị xóa ngay lập tức. Hệ thống sẽ tự động:</p>
+    <ul>
+        <li>Lưu vết Hash của ảnh để đối chiếu với cơ sở dữ liệu quốc tế (NCMEC).</li>
+        <li>Khóa vĩnh viễn tài khoản & Báo cáo cơ quan chức năng.</li>
+    </ul>
+
+    <h4>2.2. Khỏa thân người lớn</h4>
+    <ul>
+        <li>Cấm hiển thị bộ phận sinh dục, mông (trần trụi), và ngực phụ nữ (lộ đầu ngực).</li>
+        <li>Cấm các hành vi mô phỏng quan hệ tình dục, kể cả khi vẫn mặc quần áo.</li>
+    </ul>
+
+    <div class="page-break"></div>
+
+    <h3>3. Tính toàn vẹn & Thông tin xác thực</h3>
+    
+    <h4>3.1. Deepfake & Nội dung do AI tạo ra (Synthetic Media)</h4>
+    <p>Do sự phát triển của Generative AI, chúng tôi yêu cầu:</p>
+    <ul>
+        <li>Tất cả nội dung do AI tạo ra mô phỏng người thật phải được dán nhãn <strong>"AI Generated"</strong>.</li>
+        <li>Cấm sử dụng Deepfake để bôi nhọ danh dự, giả mạo chính trị gia, hoặc tạo nội dung khiêu dâm (Deepfake Porn).</li>
+    </ul>
+
+    <h4>3.2. Spam & Tương tác giả</h4>
+    <ul>
+        <li>Cấm sử dụng bot để tăng like, share ảo.</li>
+        <li>Cấm đăng tải liên tục cùng một nội dung (Flood posting).</li>
+        <li>Cấm các đường link dẫn đến trang web lừa đảo (Phishing) hoặc chứa mã độc.</li>
+    </ul>
+
+    <h2>IV. Cơ chế vận hành của AI & Ngưỡng xử lý</h2>
+    <p>Hệ thống sử dụng mô hình kiểm duyệt lai (Hybrid Model) kết hợp giữa AI và con người. Quyết định được đưa ra dựa trên <strong>Confidence Score</strong>:</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Ngưỡng điểm (Score)</th>
+                <th>Phân loại của AI</th>
+                <th>Hành động tự động (Automated Action)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>> 90%</strong></td>
+                <td>Chắc chắn vi phạm</td>
+                <td>
+                    - Tự động XÓA (Auto-delete).<br>
+                    - Gửi thông báo vi phạm cho User.
+                </td>
+            </tr>
+            <tr>
+                <td><strong>70% - 90%</strong></td>
+                <td>Nghi ngờ cao</td>
+                <td>
+                    - Gắn cờ (Flag).<br>
+                    - Chuyển vào hàng đợi ưu tiên cho Moderator duyệt.
+                </td>
+            </tr>
+            <tr>
+                <td><strong>50% - 69%</strong></td>
+                <td>Vùng xám (Grey Zone)</td>
+                <td>
+                    - Không xóa.<br>
+                    - Giới hạn hiển thị (Shadow ban) cho đến khi được duyệt.
+                </td>
+            </tr>
+            <tr>
+                <td><strong>< 50%</strong></td>
+                <td>An toàn</td>
+                <td>- Cho phép hiển thị (Auto-approve).</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>V. Quy trình Thực thi & Kháng nghị</h2>
+    
+    <h3>1. Hệ thống "Điểm gậy" (Strike System)</h3>
+    <p>Mỗi lần vi phạm sẽ bị tính một số "gậy" phạt tùy mức độ:</p>
+    <ul>
+        <li><strong>Gậy 1 (Cảnh báo):</strong> Nhắc nhở, không khóa tính năng.</li>
+        <li><strong>Gậy 2 (Hạn chế nhẹ):</strong> Cấm đăng bài trong 24 giờ.</li>
+        <li><strong>Gậy 3 (Hạn chế nặng):</strong> Cấm đăng bài trong 7 ngày.</li>
+        <li><strong>Gậy 4+ (Khóa):</strong> Vô hiệu hóa tài khoản vĩnh viễn.</li>
+    </ul>
+
+    <h3>2. Quy trình Kháng nghị (Appeal)</h3>
+    <p>Người dùng có quyền khiếu nại nếu tin rằng AI đã nhận diện sai (Dương tính giả). Thời hạn kháng nghị là <strong>15 ngày</strong>.</p>
+    <ul>
+        <li>Khi nhận được đơn kháng nghị, một Moderator cấp cao (Senior Mod) sẽ xem xét thủ công.</li>
+        <li>Dữ liệu từ các kháng nghị thành công sẽ được dùng để Re-train (huấn luyện lại) mô hình AI.</li>
+    </ul>
+
+    <div class="footer-print">
+        Tài liệu nội bộ - Lưu hành trong khuôn khổ đồ án NCKH • Future AI Tech 2024
     </div>
 
 </body>
